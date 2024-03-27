@@ -11,11 +11,30 @@
 </head>
 
 <body>
-    <div>test</div>
-    <div class="scroll-left">
-        <p>Scroll left... </p>
-    </div>
 </body>
+
+<style>
+    .scroll-left {
+        position: absolute;
+        left: 100%;
+        animation: move-words 40s linear;
+        /* text-shadow: 1px 1px 0 black, -1px -1px 0 black; */
+        text-shadow: 1px 1px 0 black, 1px -1px 0 black, -1px 1px 0 black, -1px -1px 0 black;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    @keyframes move-words {
+        0% {
+            left: 100%;
+        }
+
+        100% {
+            left: -100%;
+        }
+    }
+</style>
 
 </html>
 <script type="module" src="{{ asset('js/chat.js') }}"></script>
