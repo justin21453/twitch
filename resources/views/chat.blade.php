@@ -23,6 +23,8 @@
         color: white;
         font-size: 30px;
         font-weight: bold;
+        white-space: nowrap;
+        font-family: sans-serif;
     }
 
     @keyframes move-words {
