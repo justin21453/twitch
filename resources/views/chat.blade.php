@@ -25,6 +25,10 @@
         font-weight: bold;
         white-space: nowrap;
         font-family: sans-serif;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
     }
 
     @keyframes move-words {

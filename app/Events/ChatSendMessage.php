@@ -17,15 +17,17 @@ class ChatSendMessage implements ShouldBroadcast
 
     public $name;
     public $message;
+    public $setting;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($name, $message)
+    public function __construct($name, $message, $setting)
     {
         Log::info("__construct");
         $this->name = $name;
         $this->message = $message;
+        $this->setting = $setting;
     }
 
     /**
@@ -48,6 +50,7 @@ class ChatSendMessage implements ShouldBroadcast
         return [
             'name' => $this->name,
             'message' => $this->message,
+            'setting' => $this->setting,
         ];
     }
 
