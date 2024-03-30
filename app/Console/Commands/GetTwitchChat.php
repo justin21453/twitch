@@ -56,7 +56,7 @@ class GetTwitchChat extends Command
                 $parts = explode("PRIVMSG", $content, 2);
                 $nick = $this->get_string_between($parts[0], '!', '@');
                 if (strstr($parts[1], '!!!close!!!') && $nick == 'justin21453') {
-                    $this->printMessage($content);
+                    Log::info("I close the socket");
                     break;
                 }
 
