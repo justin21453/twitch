@@ -53,6 +53,14 @@ class GetTwitchChat extends Command
                 continue;
             }
             else if (strstr($content, 'PRIVMSG')) {
+                $parts = explode("PRIVMSG", $content, 2);
+                $nick = $this->get_string_between($parts[0], '!', '@');
+                if (strstr($parts[1], '!!!close!!!') && $nick == 'justin21453') {
+                    $this->printMessage($content);
+                    break;
+                }
+
+
                 $this->printMessage($content);
                 continue;
             }
