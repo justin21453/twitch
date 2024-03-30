@@ -101,7 +101,7 @@ class GetTwitchChat extends Command
                         $length = $emote_position_end - $emote_position_start + 1;
 
                         // substr_replace($message, $emote_html, $emote_position_start, $length);
-                        $emote_string = substr($original_message, $emote_position_start, $length);
+                        $emote_string = mb_substr($original_message, $emote_position_start, $length, 'UTF-8');
                         $message = str_replace($emote_string, $emote_html, $message);
                     }
                 }
