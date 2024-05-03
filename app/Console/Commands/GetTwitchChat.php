@@ -28,42 +28,48 @@ class GetTwitchChat extends Command
      */
     public function handle()
     {
-        $twitch_chat_client = new TwitchChatClient(env("TWITCH_USER"), env("TWITCH_OAUTH"));
-        $twitch_chat_client->connect();
+        $stop_socket = false;
+        while(!$stop_socket){
+            $twitch_chat_client = new TwitchChatClient(env("TWITCH_USER"), env("TWITCH_OAUTH"));
+            $twitch_chat_client->connect();
 
-        if (!$twitch_chat_client->isConnected()) {
-            Log::info("unconnected");
-        }
-        else{
-            Log::info("connected");
-        }
-
-        $twitch_chat_client->send('CAP REQ :twitch.tv/commands twitch.tv/tags');
-
-        while (true) {
-            $content = $twitch_chat_client->read(2048);
-            Log::info($content);
-
-            if (!$twitch_chat_client->isConnected() || !$content) {
-                Log::info("disconnected");
+            if (!$twitch_chat_client->isConnected()) {
+                Log::info("unconnected");
                 break;
             }
-            if (strstr($content, 'PING')) {
-                $twitch_chat_client->send('PONG :tmi.twitch.tv');
-                continue;
+            else{
+                Log::info("connected");
             }
-            else if (strstr($content, 'PRIVMSG')) {
-                $parts = explode("PRIVMSG", $content, 2);
-                $nick = $this->get_string_between($parts[0], '!', '@');
-                if (strstr($parts[1], '!!!close!!!') && $nick == 'justin21453') {
-                    Log::info("I close the socket");
+
+            $twitch_chat_client->send('CAP REQ :twitch.tv/commands twitch.tv/tags');
+
+            while (true) {
+                $content = $twitch_chat_client->read(2048);
+                Log::info($content);
+
+                if (!$twitch_chat_client->isConnected() || !$content) {
+                    Log::info("disconnected");
                     break;
                 }
+                if (strstr($content, 'PING')) {
+                    $twitch_chat_client->send('PONG :tmi.twitch.tv');
+                    continue;
+                }
+                else if (strstr($content, 'PRIVMSG')) {
+                    $parts = explode("PRIVMSG", $content, 2);
+                    $nick = $this->get_string_between($parts[0], '!', '@');
+                    if (strstr($parts[1], '!!!close!!!') && $nick == 'justin21453') {
+                        Log::info("I close the socket");
+                        $stop_socket = true;
+                        break;
+                    }
 
 
-                $this->printMessage($content);
-                continue;
+                    $this->printMessage($content);
+                    continue;
+                }
             }
+            sleep(10);
         }
     }
 
