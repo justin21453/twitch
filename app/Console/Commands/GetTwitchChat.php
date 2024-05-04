@@ -35,7 +35,7 @@ class GetTwitchChat extends Command
 
             if (!$twitch_chat_client->isConnected()) {
                 Log::info("unconnected");
-                break;
+                continue;
             }
             else{
                 Log::info("connected");
@@ -69,6 +69,7 @@ class GetTwitchChat extends Command
                     continue;
                 }
             }
+            $twitch_chat_client->close();
             sleep(10);
         }
     }
